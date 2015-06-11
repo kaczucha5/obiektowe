@@ -1,0 +1,87 @@
+#include "Deck.h"
+#include "Card.h"
+#include <iostream>
+#include <time.h>
+#include <stdlib.h>
+
+using namespace std;
+
+Deck:: Deck()
+{	
+	rozmiar = 52;
+	talia = new Card[rozmiar];
+	int figura = 2;
+	int kolor =1;
+	for(int i=0; i<rozmiar; i++)
+	{
+		if(figura == 15)
+		{
+			figura = 2;
+			kolor++;
+		}
+		if(kolor == 5)
+			kolor = 1;
+
+		talia[i] = Card(figura, kolor);
+		
+		figura++;
+	}
+}
+
+Deck:: ~Deck()
+{
+	delete []talia;
+}
+
+void Deck:: wyswietl_talie()
+{
+	for(int i=0; i<rozmiar; i++)
+	{
+		cout << i << " ";
+		talia[i].wyswietl_karte();
+	}
+}
+
+Card Deck:: oddaj_gorna()
+{
+	Card ob = Card(talia[rozmiar-1]);
+	Card *help = new Card[rozmiar-1];
+	
+	for(int i=0; i<rozmiar-1; i++)
+	{
+		help[i] = talia[i];
+	}
+	delete []talia;
+	talia = help;
+	rozmiar-=1;
+
+	return ob;
+}
+
+void Deck:: tasowanie()
+{
+	Card temp;
+	for(int i=0; i<rozmiar; i++)
+	{
+		int miejsce = rand()%(rozmiar-1);
+		temp = talia[miejsce];
+		talia[miejsce] = talia[i];
+		talia[i] = temp;
+	}
+}
+
+void Deck:: pobierz_ze_stosu(int r, Card *A)
+{
+  delete []talia;
+  rozmiar = r;
+  talia = new Card[rozmiar];
+  talia = A;
+}
+
+bool Deck:: czy_pusta()
+{
+  if(rozmiar==0)
+    return true;
+  else
+    return false;
+}

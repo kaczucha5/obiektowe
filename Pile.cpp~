@@ -1,0 +1,37 @@
+#include "Pile.h"
+#include "Card.h"
+
+#include <iostream>
+
+using namespace std;
+
+Pile:: Pile()
+{
+	rozmiar =0;
+	stos = new Card[rozmiar];
+}
+
+Pile:: ~Pile()
+{
+	delete []stos;
+}
+
+Card Pile:: gorna_karta()
+{
+	return stos[rozmiar-1];
+}
+
+void Pile:: dodaj_karte(const Card &A)
+{
+	Card *help = new Card[rozmiar+1];
+	for(int i=0; i<rozmiar; i++)
+	{
+		help[i] = stos[i];
+	}
+	help[rozmiar] = A;
+
+	delete []stos;
+	stos = help;
+	rozmiar +=1;
+}
+

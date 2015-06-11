@@ -1,0 +1,14 @@
+#include "Card.h"
+
+class Pile
+{
+	protected:
+		int rozmiar;
+		Card *stos;
+	public:
+		Pile();
+		~Pile();
+
+		Card gorna_karta();
+		void dodaj_karte(const Card &);
+};

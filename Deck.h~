@@ -1,0 +1,19 @@
+#pragma once
+#include "Card.h"
+
+class Deck
+{
+	protected:
+		int rozmiar;
+		Card *talia;
+	public:
+		Deck();
+		~Deck();
+
+		void wyswietl_talie();
+		void tasowanie();
+
+		//Card wyswietl_gorna();
+		Card oddaj_gorna();
+		
+};

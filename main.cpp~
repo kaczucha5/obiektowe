@@ -1,0 +1,99 @@
+#include <iostream>
+#include <time.h>
+#include <stdlib.h>
+#include "Card.h"
+#include "Deck.h"
+#include "Player.h"
+#include "Pile.h"
+
+using namespace std;
+
+int main()
+{
+	srand(time(NULL));
+	Card karta = Card(10, 1);
+	Deck talia = Deck();
+	Pile stos = Pile();
+
+	Player gracze[3] = {Player("Gracz 1"), Player("Gracz 2"), Player("Gracz 3")};
+	
+	/*for(int i=0; i<3; i++)
+	{
+		gracze[i] = Player("Gracz");
+	}*/
+	
+	// poczatek gry, wszystkie funkcje przygotowcze
+	// (tasujemy talie, rozdajemy graczom karty, dajemy
+	// pierwsza karte na stos
+
+	talia.tasowanie();
+
+	for(int i=0; i<5; i++)
+	{
+		gracze[0].dodaj_karte(talia.oddaj_gorna());
+		gracze[1].dodaj_karte(talia.oddaj_gorna());
+		gracze[2].dodaj_karte(talia.oddaj_gorna());
+	}
+
+	do
+	{
+		stos.dodaj_karte(talia.oddaj_gorna());
+	}while(stos.gorna_karta() > 10);
+
+	cout << "Karta stosu: ";
+	stos.gorna_karta().wyswietl_karte();
+	cout << endl;
+
+	//tu sie konczy poczatek
+
+	while(gracze[0].wygrana() != true && gracze[1].wygrana()!= true && gracze[2].wygrana() != true)
+	{
+		for(int z=0; z<3; z++)
+		{
+			karta = gracze[z].oddaj_karte(stos.gorna_karta());
+			if(karta == 0)	
+			{
+				cout << gracze[z].wyswietl_nazwe() 
+				<< " ciagnie karte z talii" << endl;
+				gracze[z].dodaj_karte(talia.oddaj_gorna());
+			}
+			else
+			{
+				cout << gracze[z].wyswietl_nazwe() 
+				<< " dorzuca karte: ";
+				karta.wyswietl_karte();
+				stos.dodaj_karte(karta);
+			}
+
+			cout << "Karta stosu: ";
+			stos.gorna_karta().wyswietl_karte();
+			cout << endl;
+
+			gracze[z].makao();
+			gracze[z].pomakale();
+		}
+	};
+
+	gracze[0].wyswietl_karty();
+	cout << endl;
+	gracze[1].wyswietl_karty();
+	cout << endl;
+	gracze[2].wyswietl_karty();
+	cout << endl;
+	//cout << "Karta stosu: ";
+	//stos.gorna_karta().wyswietl_karte();
+	//cout << endl;
+
+	//gracz2.wyswietl_karty();
+	//cout << endl;
+	//gracz3.wyswietl_karty();
+	//cout << endl;
+	/*cout << "Aktualnie ostatnia kartą na stosie jest:";
+	karta = gracz1.oddaj_karte(stos.gorna_karta());
+	gracz1.wyswietl_karty();
+	cout << "Karta zabrana: ";
+	karta.wyswietl_karte();
+	stos.dodaj_karte(karta);
+	cout << "Aktualnie ostatnia kartą na stosie jest:";
+	stos.gorna_karta();*/
+}
